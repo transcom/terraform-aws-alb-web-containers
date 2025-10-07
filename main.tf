@@ -83,10 +83,16 @@ resource "aws_lb" "main" {
 
 }
 
-resource "aws_lb_attribute" "drop_invalid_header_fields" {
-  load_balancer_arn = aws_lb.main.arn
-  key               = "routing.http.drop_invalid_header_fields.enabled"
-  value             = "true"
+resource "null_resource" "set_lb_attribute" {
+  triggers = {
+    lb_arn = aws_lb.main.arn
+  }
+
+  provisioner "local-exec" {
+    command = "aws elbv2 modify-load-balancer-attributes --load-balancer-arn ${aws_lb.main.arn} --attributes Key=routing.http.drop_invalid_header_fields.enabled,Value=true"
+  }
+
+  depends_on = [aws_lb.main]
 }
 
 resource "aws_lb_target_group" "https" {
