@@ -83,6 +83,12 @@ resource "aws_lb" "main" {
 
 }
 
+resource "aws_lb_attribute" "drop_invalid_header_fields" {
+  load_balancer_arn = aws_lb.main.arn
+  key               = "routing.http.drop_invalid_header_fields.enabled"
+  value             = "true"
+}
+
 resource "aws_lb_target_group" "https" {
   # Name must be less than or equal to 32 characters, or AWS API returns error.
   # Error: "name" cannot be longer than 32 characters
