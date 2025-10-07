@@ -177,3 +177,8 @@ variable "unhealthy_threshold" {
   type        = string
   default     = 3
 }
+
+variable "drop_invalid_header_fields" {
+  type    = bool
+  default = true
+}

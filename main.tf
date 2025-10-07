@@ -71,6 +71,9 @@ resource "aws_lb" "main" {
 
   enable_deletion_protection = var.enable_deletion_protection
 
+  drop_invalid_header_fields = var.drop_invalid_header_fields
+
+
   dynamic "access_logs" {
     # Skips creating the block if logs_s3_bucket is empty string
     for_each = var.logs_s3_bucket == "" ? [] : ["create block"]
@@ -81,18 +84,6 @@ resource "aws_lb" "main" {
     }
   }
 
-}
-
-resource "null_resource" "set_lb_attribute" {
-  triggers = {
-    lb_arn = aws_lb.main.arn
-  }
-
-  provisioner "local-exec" {
-    command = "aws elbv2 modify-load-balancer-attributes --load-balancer-arn ${aws_lb.main.arn} --attributes Key=routing.http.drop_invalid_header_fields.enabled,Value=true"
-  }
-
-  depends_on = [aws_lb.main]
 }
 
 resource "aws_lb_target_group" "https" {
