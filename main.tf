@@ -14,7 +14,7 @@ resource "aws_security_group" "alb_sg" {
     {
       Automation  = "Terraform"
       Environment = var.environment
-      Name        = "alb-app-${var.environment}"
+      Name        = var.name
     }
   )
 }
