@@ -9,14 +9,6 @@ resource "aws_security_group" "alb_sg" {
   description = "${var.name}-${var.environment} ALB security group"
   vpc_id      = var.alb_vpc_id
 
-  tags = merge(
-    var.security_group_tags,
-    {
-      Automation  = "Terraform"
-      Environment = var.environment
-      Name        = var.name
-    }
-  )
 }
 
 locals {
