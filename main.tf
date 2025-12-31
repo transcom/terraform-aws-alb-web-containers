@@ -1,6 +1,6 @@
 #
 # SG - ALB
-#
+##
 
 resource "aws_security_group" "alb_sg" {
   count = var.security_group == "" ? 1 : 0
